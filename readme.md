@@ -29,7 +29,10 @@ The project implementation consists of several stages:
      
    - **Tesseract:**  
      A mature, open-source engine that uses LSTM networks (since version 4) combined with traditional techniques. It performs well on high-resolution, preprocessed images but may introduce character substitutions and layout errors if the input is not optimal.
-      
+   - **TrOCR:**  
+     It combines a ViT-based image encoder with an autoregressive text Transformer decoder. It yields superior performance across print, handwriting, and scene text tasks. However, the model size is larger compared to CNN based models.      
+   - **DONUT:**  
+    It is an OCR-free end-to-end model that uses a Swin Transformer encoder to directly processes the document image, and a transformer decoder to generates the document text or desired fields. The model can learn to handle noisy text, layout, and even some language context all at once. Donut can be fine-tuned to produce plain text transcripts, but it is more complex to train from scratch than fine-tuning TrOCR with synthetic documents.
    - **Google’s Gemini LLM:**  
      Leveraging transformer-based reasoning and a multi-modal input pipeline, Gemini consistently produces near-reference quality outputs. It preserves subtle nuances in historical texts and shows robust performance even on degraded or complex documents. The model’s advanced language understanding allows it to “reason through” errors that stymie traditional OCR engines. It can also filter out irrelevant parts when appropriate prompts.
 
@@ -50,7 +53,14 @@ The project implementation consists of several stages:
   Average WER: 0.60 | Average CER: 0.19  
   *Strengths:* Good for high-resolution images with proper preprocessing.  
   *Weaknesses:* Sensitive to image skew, lighting variations, and less effective on heavily degraded or complex layouts.
-  
+- **TrOCR:**  
+  Average WER: 0.86 | Average CER: 0.65  
+  *Strengths:* Able to handle diverse text styles and contextual error correction.  
+  *Weaknesses:* Its generic synthetic pretraining data may not fully capture the nuances of 17th-century Spanish fonts.  
+- **DONUT:**  
+  Average WER: 0.94 | Average CER: 0.85  
+  *Strengths:* It processes document images directly, capturing both text and layout information to minimize error propagation.  
+  *Weaknesses:* It requires extensive fine-tuning for domain-specific layouts, and errors in layout analysis can affect transcription quality.
 - **Google Gemini LLM:**  
   Average WER: 0.25 | Average CER: 0.07  
   *Strengths:* Superior accuracy and consistency across document types; maintains structure and nuance in the extracted text.  
@@ -63,6 +73,7 @@ Overall, the results demonstrate that while traditional engines have their place
 The choice of OCR tool depends on the document type and processing requirements:
 - **Tesseract** remains a robust solution when images are preprocessed correctly and the document layout is standard.
 - **EasyOCR** offers ease-of-use and good performance on cleaner documents but may falter on noisy inputs.
+- **TrOCR:** and **DONUT:** require extensive fine-tuning to capture the nuances of 17th-century Spanish fonts, especailly with synthetic data and image augmentation.
 - **Google Gemini LLM** stands out for challenging documents, thanks to its sophisticated reasoning capabilities and multimodal processing—even though it requires slightly more computational resources.
 
 While all three methods have strengths, Gemini’s significant accuracy improvements position it as the future of OCR in contexts where document integrity and nuanced understanding are critical.
@@ -70,6 +81,12 @@ While all three methods have strengths, Gemini’s significant accuracy improvem
 ## Future Directions
 
 Future improvements could include:
+- **Image Preprocessing:**  
+  Cleaning the image (e.g., removing noise, turning into binary images) before feeding to the model may help enhancing the accuracy.
+
+- **Image Augmentation and Synthetic Data:**  
+  Image augmentation can be used to generate additional training data with different settings (e.g. lighting). Also, synthetic document generator like SynthDoG may help in fine-tuning on varied fonts and content.
+
 - **Enhanced Preprocessing:**  
   Integrating a fine-tuned CNN for text region detection may further boost accuracy, especially for heavily degraded documents.
   
@@ -81,6 +98,3 @@ Future improvements could include:
   
 - **Multilingual and Script Expansion:**  
   Fine-tuning models for additional languages, especially low-resource scripts, can extend the project’s applicability.
-
-
-
