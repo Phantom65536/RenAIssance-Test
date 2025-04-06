@@ -6,7 +6,7 @@ This project focuses on extracting text from scanned historical documents using 
 
 ## Dataset
 
-I used the scanned historical documents provided in this task. These PDF documents were then processed into images and paired with ground truth transcriptions. Most of them were split into individual lines to serve as training and testing samples for the TrOCR model.
+I used the provided scanned historical documents, converting the PDF files into images paired with ground truth transcriptions. Most documents were split into individual lines to create training and testing samples for the TrOCR model. The `test_sources` folder contains all original PDF files, `extracted_imgs` holds cropped images of the main text, and `cropped_imgs` includes cropped lines from each page. For fine-tuning, `train_data` and `test_data` are created by splitting `cropped_imgs`, while `pdf_labels` store the corresponding ground truth sentences.
 
 ## Implementation
 
