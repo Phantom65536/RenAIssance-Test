@@ -1,16 +1,12 @@
-
-
-# OCR Project
+# RenAIssance: OCR for historical documents
 
 ## Introduction
 
-This project focuses on extracting text from scanned historical documents using three distinct approaches: traditional OCR engines (EasyOCR and Tesseract) and a state-of-the-art language model approach with Google’s Gemini LLM.  
-  
-Traditional engines like Tesseract and EasyOCR have served well for years, but they often stumble on degraded documents, irregular fonts, and complex layouts. In contrast, Gemini leverages advanced transformer architectures and deep contextual reasoning to deliver impressive accuracy—achieving an average Word Error Rate (WER) of 0.25 and Character Error Rate (CER) of 0.07, compared to 0.78/0.32 for EasyOCR and 0.60/0.19 for Tesseract. Gemini’s multi-modal capabilities let it “see beyond” noise and handle degraded, archaic texts more effectively, though its output may require minimal post-processing for critical applications. 
+This project focuses on extracting text from scanned historical documents using three distinct approaches: traditional OCR engines (EasyOCR and Tesseract), transformer-based models (TrOCR and DONUT), and a state-of-the-art language model approach with Google’s Gemini LLM. Traditional engines like Tesseract and EasyOCR have long been reliable but struggle with degraded documents, irregular fonts, and complex layouts, while transformer-based models like TrOCR and DONUT use encoder-decoder architectures for improved contextual correction and layout analysis, though they require extensive fine-tuning to effectively handle the noise and complexity of historical texts; meanwhile, Gemini leverages advanced transformer architectures and multi-modal reasoning to achieve impressive accuracy.
 
 ## Dataset
 
-I use multiple scanned historical documents. These include PDF documents processed into images and paired with ground truth transcriptions . The diversity of document conditions—ranging from well-preserved texts to heavily degraded originals—provides a realistic challenge for comparing OCR methods.
+I used the scanned historical documents provided in this task. These PDF documents were then processed into images and paired with ground truth transcriptions. Most of them were split into individual lines to serve as training and testing samples for the TrOCR model.
 
 ## Implementation
 
@@ -83,13 +79,13 @@ While all three methods have strengths, Gemini’s significant accuracy improvem
 
 ## Future Directions
 
-Future improvements could include:
+Future improvements could include (take a look at the proposal for more details):
 
 - **Enhanced Image Preprocessing:**  
-  Further improvement in OCR performance could be achieved by exploring advanced image preprocessing techniques tailored to historical documents. One promising avenue is the integration of segmentation models—such as CRAFT, FOTS, or similar deep learning-based methods that are specifically fine-tuned on our historical dataset. These models can accurately detect and isolate text regions, even in documents with heavy degradation, irregular spacing, or noisy backgrounds. In addition to segmentation, techniques such as adaptive thresholding, contrast enhancement, and skew correction can be further optimized to ensure that the text’s x-height is preserved and that artifacts (e.g., ink bleed or smudges) are minimized. Combining traditional image processing with modern CNN-based segmentation can create a robust preprocessing pipeline that maximizes the quality of input images before OCR.
+  Further improvement in OCR performance could be achieved by exploring advanced image preprocessing techniques tailored to historical documents. Combining traditional image processing with modern CNN-based segmentation can create a robust preprocessing pipeline that maximizes the quality of input images before OCR.
   
 - **Hybrid Approaches:**  
-  Combining the speed of traditional OCR (e.g., Tesseract) with the nuanced understanding of Gemini could yield a hybrid system that uses each engine where it excels. A promising direction is the development of a hybrid OCR system that leverages the speed of traditional engines alongside the contextual prowess of advanced language models. For example, a system might use Tesseract for rapid initial text extraction on high-quality, well-preprocessed regions, while directing more challenging sections (those with noise, degraded fonts, or complex layouts) to Google’s Gemini LLM. This can be achieved by first employing a lightweight CNN to assess image quality and dynamically routing regions based on their predicted difficulty. Additionally, an ensemble method could combine the outputs of multiple OCR engines, using statistical voting or confidence scoring to determine the final text. By fusing the strengths of both approaches, the system can offer high-speed processing on simpler documents while reserving advanced processing for sections that demand deeper contextual understanding.
+  A hybrid OCR system could combine the speed of traditional engines like Tesseract for high-quality regions with the nuanced understanding of Gemini for challenging areas, using dynamic routing and ensemble methods to optimize overall accuracy.
   
 - **Enhanced Postprocessing:**  
-  Even with improved OCR models, occasional errors—such as misrecognized characters or subtle layout issues—may still occur. To address these, additional rule-based postprocessing can be implemented. For instance, algorithms that leverage fuzzy matching and the Levenshtein distance can be used to automatically correct common misrecognitions (e.g., correcting “diffeño” to “disseño”). This process could also incorporate statistical language models or fine-tuned transformer modules that analyze context at the character or word level to standardize outputs. Furthermore, incorporating a human-in-the-loop mechanism where experts can review and annotate persistent errors might refine the automated rules over time. This hybrid postprocessing strategy would combine automated corrections with iterative expert feedback, ultimately leading to cleaner and more accurate transcriptions.
+  Even with improved OCR models, occasional errors—such as misrecognized characters or subtle layout issues—may still occur. To address these, additional rule-based postprocessing can be implemented.
