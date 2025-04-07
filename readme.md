@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project focuses on extracting text from scanned historical documents using three distinct approaches: traditional OCR engines (EasyOCR and Tesseract), transformer-based models (TrOCR and DONUT), and a state-of-the-art language model approach with Google’s Gemini LLM. Traditional engines like Tesseract and EasyOCR have long been reliable but struggle with degraded documents, irregular fonts, and complex layouts, while transformer-based models like TrOCR and DONUT use encoder-decoder architectures for improved contextual correction and layout analysis, though they require extensive fine-tuning to effectively handle the noise and complexity of historical texts; meanwhile, Gemini leverages advanced transformer architectures and multi-modal reasoning to achieve impressive accuracy.
+This project focuses on extracting text from scanned historical documents using three distinct approaches: traditional OCR engines (EasyOCR and Tesseract), transformer-based models (TrOCR and DONUT), and a state-of-the-art language model approach with Google’s Gemini LLM. The traditional OCR and language model approaches are implemented in `Script.ipynb`, while the transformer-based model approach is in `Script_cropped.ipynb`. Traditional engines like Tesseract and EasyOCR have long been reliable but struggle with degraded documents, irregular fonts, and complex layouts, while transformer-based models like TrOCR and DONUT use encoder-decoder architectures for improved contextual correction and layout analysis, though they require extensive fine-tuning to effectively handle the noise and complexity of historical texts; meanwhile, Gemini leverages advanced transformer architectures and multi-modal reasoning to achieve impressive accuracy.
 
 ## Dataset
 
@@ -42,16 +42,15 @@ The project implementation consists of several stages:
 ## Results and Comparisons
 
 - **EasyOCR:**  
-  Average WER: 0.78 | Average CER: 0.32  
+  Average WER: 0.78 | Average CER: 0.32 (Outputs for provided documents are saved in `easyocr_result_full`)
   *Strengths:* Simplicity, multi-language support for many well-structured documents.  
   *Weaknesses:* Struggles with irregular spacing and noisy backgrounds.
-  
 - **Tesseract:**  
-  Average WER: 0.60 | Average CER: 0.19  
+  Average WER: 0.60 | Average CER: 0.19 (Outputs for provided documents are saved in `tesseract_result_full`) 
   *Strengths:* Good for high-resolution images with proper preprocessing.  
   *Weaknesses:* Sensitive to image skew, lighting variations, and less effective on heavily degraded or complex layouts.
 - **TrOCR:**  
-  Average WER: 0.86 | Average CER: 0.65  
+  Average WER: 0.86 | Average CER: 0.65 (Outputs for provided documents are saved in `gemini_result_full`) 
   *Strengths:* Able to handle diverse text styles and contextual error correction.  
   *Weaknesses:* Its generic synthetic pretraining data may not fully capture the nuances of 17th-century Spanish fonts.
 - **TrOCR Finetuned:**
